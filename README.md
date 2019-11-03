@@ -100,7 +100,7 @@ The f1-score result of APIs are:</br>
 #### V0.2.2(11/02/2019)
 According to the previous step' result, the F1-score of these APIs are pretty low, after the analysis, the result as below.
 
-->Pattern Report<-
+<p align="center">Pattern Report</P><br>
 This short report is a small conclusion of how the image’s pattern influence the Vision Recognition APIs performance. After submit a bunch of images to these APIs and record the return labels from them, I sorted the labels by relative to word of caribou, and split the labels into four groups, than gives the score to the labels of API’s prediction. I used the f1-score measurement to evaluate the API’s performance, I found the score the pretty low and now I am going to analyze what influence the API’s prediction.<br>
 I write a program that extract all the API’s return labels are FN and store them in a new excel file.<br>
 I looked up the false negative labels and found most API’s number of FN are actually the number of images have caribou, that means if the evaluation is strict, these API’s predicted label will not get any TP. So I scan the images that have caribou and extract the pattern from them, the most influence factors are distance from caribou to camera, caribou’s body in image is full or partial, and the ambient lighting. I evaluated the images by these three standards and save them in the excel file.<br>
