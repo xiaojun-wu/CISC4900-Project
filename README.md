@@ -6,5 +6,93 @@ This is a github for CISC 4900 Project. It store the project excel files and pro
 #### V0.1(10/14/2019)
 This is the first submission, I submit the program files and excel files. The program files connect the APIs, submit the images and get the labels. The progrom  also save the labels in the corresponding excel file.
 
-#### V0.2(10/27/2019)
+#### V0.2.0(10/27/2019)
 This is the second submission. I submit the program that calculate the F1-score for each API's performence. The program will read the data from excel files, and general the indicator arrays. using these array to make the confusion matrix and than the F1-score.
+
+#### V0.2.1(10/28/2019)
+This is the third submission. I fix a problem in previous program and add the new feature that sort the TN, FN, FP, TN, precision, recall, and f1-score in dictionary. It will be help to see what differet of each API's performence.
+
+#### Output of the measureProgram.py:
+
+F1 measure result of IBM vision API:</br>
+TP is:  2.0</br>
+FN is:  38.0</br>
+FP is:  1.6</br>
+TN is:  248.39999999999998</br>
+precision is:  0.5555555555555556</br>
+reall is:  0.05</br>
+f1_score is:  0.09174311926605504</br>
+
+
+F1 measure result of Clarifai vision API:</br>
+TP is:  0.4</br>
+FN is:  39.6</br>
+FP is:  3.1999999999999997</br>
+TN is:  246.79999999999998</br>
+precision is:  0.11111111111111113</br>
+reall is:  0.01</br>
+f1_score is:  0.01834862385321101</br>
+
+
+F1 measure result of AWS vision API:</br>
+TP is:  5.6</br>
+FN is:  34.39999999999999</br>
+FP is:  36.399999999999956</br>
+TN is:  213.60000000000008</br>
+precision is:  0.13333333333333347</br>
+reall is:  0.14</br>
+f1_score is:  0.13658536585365863</br>
+
+
+F1 measure result of Google cloudVision API without object detection:</br>
+TP is:  2.4</br>
+FN is:  37.6</br>
+FP is:  2.4</br>
+TN is:  247.59999999999997</br>
+precision is:  0.5</br>
+reall is:  0.06</br>
+f1_score is:  0.10714285714285712</br>
+
+
+F1 measure result of Google cloudVision API with only object detection:</br>
+TP is:  7.200000000000002</br>
+FN is:  32.8</br>
+FP is:  4.8</br>
+TN is:  245.2</br>
+precision is:  0.6000000000000001</br>
+reall is:  0.18000000000000005</br>
+f1_score is:  0.276923076923077</br>
+
+
+F1 measure result of Google cloudVision API with object detection:</br>
+TP is:  7.200000000000002</br>
+FN is:  32.8</br>
+FP is:  6.400000000000001</br>
+TN is:  243.59999999999997</br>
+precision is:  0.5294117647058824</br>
+reall is:  0.18000000000000005</br>
+f1_score is:  0.2686567164179105</br>
+
+
+After sorted, the descending order of TN, FN, FP, TN, precision, recall, and f1-score are:</br>
+
+The TP result of APIs are:</br>
+[('GoolgeWithOnlyObj', 7.200000000000002), ('GoolgeWithBothDetector', 7.200000000000002), ('AWS', 5.6), ('GoolgeWithoutObj', 2.4), ('IBM', 2.0), ('Clarifai', 0.4)]</br>
+
+The FN result of APIs are:</br>
+[('Clarifai', 39.6), ('IBM', 38.0), ('GoolgeWithoutObj', 37.6), ('AWS', 34.39999999999999), ('GoolgeWithOnlyObj', 32.8), ('GoolgeWithBothDetector', 32.8)]</br>
+
+The FP result of APIs are:</br>
+[('AWS', 36.399999999999956), ('GoolgeWithBothDetector', 6.400000000000001), ('GoolgeWithOnlyObj', 4.8), ('Clarifai', 3.1999999999999997), ('GoolgeWithoutObj', 2.4), ('IBM', 1.6)]</br>
+
+The TN result of APIs are:</br>
+[('IBM', 248.39999999999998), ('GoolgeWithoutObj', 247.59999999999997), ('Clarifai', 246.79999999999998), ('GoolgeWithOnlyObj', 245.2), ('GoolgeWithBothDetector', 243.59999999999997), ('AWS', 213.60000000000008)]</br>
+
+The precision result of APIs are:</br>
+[('GoolgeWithOnlyObj', 0.6000000000000001), ('IBM', 0.5555555555555556), ('GoolgeWithBothDetector', 0.5294117647058824), ('GoolgeWithoutObj', 0.5), ('AWS', 0.13333333333333347), ('Clarifai', 0.11111111111111113)]</br>
+
+The recall result of APIs are:</br>
+[('GoolgeWithOnlyObj', 0.18000000000000005), ('GoolgeWithBothDetector', 0.18000000000000005), ('AWS', 0.14), ('GoolgeWithoutObj', 0.06), ('IBM', 0.05), ('Clarifai', 0.01)]</br>
+
+The f1-score result of APIs are:</br>
+[('GoolgeWithOnlyObj', 0.276923076923077), ('GoolgeWithBothDetector', 0.2686567164179105), ('AWS', 0.13658536585365863), ('GoolgeWithoutObj', 0.10714285714285712), ('IBM', 0.09174311926605504), ('Clarifai', 0.01834862385321101)]
