@@ -96,3 +96,16 @@ The recall result of APIs are:</br>
 
 The f1-score result of APIs are:</br>
 [('GoolgeWithOnlyObj', 0.276923076923077), ('GoolgeWithBothDetector', 0.2686567164179105), ('AWS', 0.13658536585365863), ('GoolgeWithoutObj', 0.10714285714285712), ('IBM', 0.09174311926605504), ('Clarifai', 0.01834862385321101)]
+
+#### V0.2.2(11/02/2019)
+According to the previous step' result, the F1-score of these APIs are pretty low, after the analysis, the result as below.
+
+->Pattern Report<-
+This short report is a small conclusion of how the image’s pattern influence the Vision Recognition APIs performance. After submit a bunch of images to these APIs and record the return labels from them, I sorted the labels by relative to word of caribou, and split the labels into four groups, than gives the score to the labels of API’s prediction. I used the f1-score measurement to evaluate the API’s performance, I found the score the pretty low and now I am going to analyze what influence the API’s prediction.<br>
+I write a program that extract all the API’s return labels are FN and store them in a new excel file.<br>
+I looked up the false negative labels and found most API’s number of FN are actually the number of images have caribou, that means if the evaluation is strict, these API’s predicted label will not get any TP. So I scan the images that have caribou and extract the pattern from them, the most influence factors are distance from caribou to camera, caribou’s body in image is full or partial, and the ambient lighting. I evaluated the images by these three standards and save them in the excel file.<br>
+I used the data to make the three chart per API, each chart shows the proportion of different values in one dimension (Distance, body part, and ambient lighting). The most relative factor is the distance from caribou to camera, most of the labels that get partial score are in the distance between very close to near. Only one API can recognize an image that the caribou is far away from the camera. The second relative factor is caribou’s body in images, the chart shows if caribou in an image isn’t partial but whole, the API can recognize it better. The most not relative factor is ambient lighting, most API’s result show the weak ambient lighting and strong ambient lighting are has no difference.<br>
+The conclusion is the caribou is closer to camera, the image will be recognize has caribou by API is more possible.
+
+
+
