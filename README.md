@@ -3,6 +3,51 @@
 
 This is a github for CISC 4900 Project. It store the project excel files and program files.
 
+#### V0.3.1(12/03/2019)
+This update is the report of trial background subtraction of images. I choose 63 photos as the dataset, these photos have similar background.
+First, I chose MOG2 algorithm(Gaussian Mixture-based Background/Foreground Segmentation Algorithm) to do the background subtraction, but the result doesn't looks good because the lighting changes affect the resuls. Then I tried to used histogram equalization and CLAHE(Contrast Limited Adaptive Histogram Equalization) methodS to eliminate the lighting changes effect, the result still not be satisfied. I let google vision API to detect the MOG2's ouput images(foreground imamges). The result even worse than the original image's result.
+```
+Original images F1 measure result of Google cloudVision Label detect API:
+TP is:  1.2000000000000002
+FN is:  7.799999999999999
+FP is:  0
+TN is:  53
+precision is:  1.0
+reall is:  0.13333333333333336
+f1_score is:  0.23529411764705888
+
+
+Original images F1 measure result of Google cloudVision Object detection API:
+TP is:  3.0
+FN is:  6.0
+FP is:  1.6
+TN is:  51.400000000000006
+precision is:  0.6521739130434783
+reall is:  0.3333333333333333
+f1_score is:  0.44117647058823534
+
+
+foreground images F1 measure result of Google cloudVision Label detect API:
+TP is:  0.4
+FN is:  8.6
+FP is:  0
+TN is:  53
+precision is:  1.0
+reall is:  0.044444444444444446
+f1_score is:  0.0851063829787234
+
+
+foreground images F1 measure result of Google cloudVision Object detection API:
+TP is:  2.8
+FN is:  6.199999999999999
+FP is:  8.400000000000002
+TN is:  44.60000000000002
+precision is:  0.24999999999999992
+reall is:  0.3111111111111111
+f1_score is:  0.2772277227722772
+```
+
+
 #### V0.1(10/14/2019)
 This is the first submission, I submit the program files and excel files. The program files connect the APIs, submit the images and get the labels. The progrom  also save the labels in the corresponding excel file.
 
