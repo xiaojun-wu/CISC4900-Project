@@ -46,8 +46,14 @@ precision is:  0.24999999999999992
 reall is:  0.3111111111111111
 f1_score is:  0.2772277227722772
 ```
+
+original image
+![Original image](https://raw.githubusercontent.com/xiaojun-wu/CISC4900-Project/master/backgroundSubtraction/photos/RCNX4719.JPG)
+MOG2 foreground image
 ![MOG2 foreground](https://raw.githubusercontent.com/xiaojun-wu/CISC4900-Project/master/backgroundSubtraction/mask/RCNX4719.JPG)
+Equalization foreground image
 ![Equalization foreground](https://raw.githubusercontent.com/xiaojun-wu/CISC4900-Project/master/backgroundSubtraction/equalization/filterImages/RCNX4719.JPG)
+CLAHE foreground image
 ![CLAHE foreground](https://raw.githubusercontent.com/xiaojun-wu/CISC4900-Project/master/backgroundSubtraction/CLAHE/foregrounds/RCNX4719.JPG)
 
 
