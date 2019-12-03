@@ -5,7 +5,7 @@ This is a github for CISC 4900 Project. It store the project excel files and pro
 
 #### V0.3.1(12/03/2019)
 This update is the report of trial background subtraction of images. I choose 63 photos as the dataset, these photos have similar background.
-First, I chose MOG2 algorithm(Gaussian Mixture-based Background/Foreground Segmentation Algorithm) to do the background subtraction, but the result doesn't looks good because the lighting changes affect the resuls. Then I tried to used histogram equalization and CLAHE(Contrast Limited Adaptive Histogram Equalization) methodS to eliminate the lighting changes effect, the result still not be satisfied. I let google vision API to detect the MOG2's ouput images(foreground imamges). The result even worse than the original image's result.
+First, I chose MOG2 algorithm(Gaussian Mixture-based Background/Foreground Segmentation Algorithm) to do the background subtraction, but the result doesn't looks good because the lighting changes affect the resuls. Then I tried to used histogram equalization and CLAHE(Contrast Limited Adaptive Histogram Equalization) methods to eliminate the lighting changes effect, the result still not be satisfied. I let google vision API to detect the MOG2's ouput images(foreground imamges). The result even worse than the original image's result.
 ```
 Original images F1 measure result of Google cloudVision Label detect API:
 TP is:  1.2000000000000002
@@ -51,9 +51,9 @@ original image
 ![Original image](https://raw.githubusercontent.com/xiaojun-wu/CISC4900-Project/master/backgroundSubtraction/photos/RCNX4719.JPG)
 MOG2 foreground image
 ![MOG2 foreground](https://raw.githubusercontent.com/xiaojun-wu/CISC4900-Project/master/backgroundSubtraction/mask/RCNX4719.JPG)
-Equalization foreground image
+Foreground extrac from image that after equalization.
 ![Equalization foreground](https://raw.githubusercontent.com/xiaojun-wu/CISC4900-Project/master/backgroundSubtraction/equalization/filterImages/RCNX4719.JPG)
-CLAHE foreground image
+Foreground extrac from image that after CLAHE.
 ![CLAHE foreground](https://raw.githubusercontent.com/xiaojun-wu/CISC4900-Project/master/backgroundSubtraction/CLAHE/foregrounds/RCNX4719.JPG)
 
 #### V0.2.2(11/02/2019)
