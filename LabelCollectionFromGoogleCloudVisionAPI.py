@@ -58,6 +58,7 @@ Fileter the labels and save to objects variable.
 """
 for i in range(151,rows+1):
     filename = sheet.cell(row = i, column = 1).value
+    # path is the cloud storage link that contains images.
     path = 'gs://cisc4900project/HITS/'
     fullpath = os.path.join(path,filename)
     fullpath = fullpath.replace('\\','')

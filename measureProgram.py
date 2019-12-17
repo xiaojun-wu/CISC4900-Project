@@ -44,7 +44,7 @@ precision_dict = dict()
 recall_dict = dict()
 f1_score_dict = dict()
 
-
+# Scan spreadsheet and save the result in array that present images have caribou or not.
 def imageGroundTruthArray():
     workbook = openpyxl.load_workbook('image-descriptionByMyself.xlsx')
     sheet = workbook.active
@@ -60,33 +60,52 @@ def imageGroundTruthArray():
             y_true.append(0)
 
     return y_true
-
+'''
+This function open a spreadsheet and call the filter function that return the API's prediction array.
+'''
 def IBMLabelIndicatorArray():
+    '''
+    Keywords indicate image has caribous
+    first level means most exact description,
+    than second level, last one is third level.
+    '''
     keywords = ['animal','mammal','ice bear','bear','carnivore','dall sheep','wild sheep','ruminant','polar hare',
     'hare','gnawing mammal','great white heron','heron','aquatic']
     firstLevelKeywords = ['caribou','reindeer','deer']
     secondLevelKeywords = ['dall sheep', 'wild sheep']
     thirdLevelKeywords = ['animal','mammal','ice bear','bear','carnivore','ruminant','polar hare','hare','gnawing mammal',]
 
+    # Open spreadsheet that contains APIs return labels.
     workbook = openpyxl.load_workbook('imageDescriptionByIBM.xlsx')
     sheet = workbook.active
     rows = sheet.max_row
 
+    # Call the filter function.
     return generatePredictArray(sheet,rows,firstLevelKeywords,secondLevelKeywords,thirdLevelKeywords)
 
+'''
+This function open a spreadsheet and filter the label in side of this function.
+'''
 def GoogleLabelIndicatorArrayNoObjectAnnoation():
+    '''
+    Keywords indicate image has caribous
+    first level means most exact description,
+    than second level, last one is third level.
+    '''
     keywords = ['wildlife','animal','mammal','deer','caribou','bear','polar bear','antelope','horse','goat','sheep','Canine',
     'Arctic Fox','Mountain Goat','Bison']
     firstLevelKeywords = ['deer','caribou','reindeer']
     secondLevelKeywords = ['antelope','horse','goat','sheep','Mountain Goat']
     thirdLevelKeywords = ['wildlife','animal','mammal','bear','polar bear','Canine','Arctic Fox','Bison']
 
+    # Open spreadsheet that contains APIs return labels.
     workbook = openpyxl.load_workbook('imageDescriptionByCloudVisionAPIs.xlsx')
     sheet = workbook.active
     rows = sheet.max_row
 
     y_pred = []
 
+    # Filter labels.
     for i in range(3,rows+1):
         labelAnnotations = sheet.cell(row = i, column = 2).value
         labels = list(labelAnnotations.split(","))
@@ -105,13 +124,22 @@ def GoogleLabelIndicatorArrayNoObjectAnnoation():
         y_pred.append(value)
     return y_pred
 
+'''
+This function open a spreadsheet and filter the label in side of this function.
+'''
 def GoogleLabelIndicatorArrayWithOnlyObjectDetector():
+    '''
+    Keywords indicate image has caribous
+    first level means most exact description,
+    than second level, last one is third level.
+    '''
     keywords = ['wildlife','animal','mammal','deer','caribou','bear','polar bear','antelope','horse','goat','sheep','Canine',
     'Arctic Fox','Mountain Goat','Bison']
     firstLevelKeywords = ['deer','caribou','reindeer']
     secondLevelKeywords = ['antelope','horse','goat','sheep','Mountain Goat']
     thirdLevelKeywords = ['wildlife','animal','mammal','bear','polar bear','Canine','Arctic Fox','Bison']
 
+    # Open spreadsheet that contains APIs return labels.
     workbook = openpyxl.load_workbook('imageDescriptionByCloudVisionAPIs.xlsx')
     sheet = workbook.active
     rows = sheet.max_row
@@ -140,6 +168,9 @@ def GoogleLabelIndicatorArrayWithOnlyObjectDetector():
         y_pred.append(value)
     return y_pred
 
+'''
+This function open a spreadsheet and filter the label in side of this function.
+'''
 def GoogleLabelIndicatorArrayWithBothDetectors():
     keywords = ['wildlife','animal','mammal','deer','caribou','bear','polar bear','antelope','horse','goat','sheep','Canine',
     'Arctic Fox','Mountain Goat','Bison']
@@ -177,6 +208,9 @@ def GoogleLabelIndicatorArrayWithBothDetectors():
         y_pred.append(value)
     return y_pred
 
+'''
+This function open a spreadsheet and call the filter function that return the API's prediction array.
+'''
 def ClarifaiLabelIndicatorArray():
     keywords = ['wildlife','animal','mammal','deer','caribou']
     firstLevelKeywords = ['deer','caribou']
@@ -189,6 +223,9 @@ def ClarifaiLabelIndicatorArray():
 
     return generatePredictArray(sheet,rows,firstLevelKeywords,secondLevelKeywords,thirdLevelKeywords)
 
+'''
+This function open a spreadsheet and call the filter function that return the API's prediction array.
+'''
 def AWSLabelIndicatorArray():
     keywords = ['wildlife','animal','mammal','deer','caribou','bear','polar bear','antelope','horse','goat','sheep','Canine',
     'Arctic Fox','Mountain Goat','Bison','Buffalo']
@@ -203,6 +240,7 @@ def AWSLabelIndicatorArray():
 
     return generatePredictArray(sheet,rows,firstLevelKeywords,secondLevelKeywords,thirdLevelKeywords)
 
+# filter function that filter spreadsheet's label by keywrods, and return a prediction array.
 def generatePredictArray(sheet,rows,firstLevelKeywords,secondLevelKeywords,thirdLevelKeywords):
     y_pred = []
 
@@ -255,11 +293,13 @@ def confusionMatrix(y_true,y_pred):
 
     return f1_score
 
+# Calculate each API's TP, FP, FN, and TN, use those values to get the F1 score.
 def confusionMatrixAndDataDictGenerator(y_true,y_pred,name):
     TP=0
     FP=0
     FN=0
     TN=0
+    # calculate TN, FP, FN, and TN.
     for i in range(0,len(y_true)):
         if(y_true[i] == 1):
             TP += y_pred[i]
@@ -273,17 +313,20 @@ def confusionMatrixAndDataDictGenerator(y_true,y_pred,name):
     print("FP is: ", FP),
     print("TN is: ", TN),
 
+    # Calculate precision and recall rate.
     precision = TP/(TP+FP)
     recall = TP/(TP+FN)
 
     print("precision is: ", precision),
     print("reall is: ", recall),
 
+    # Calculate F1 score.
     f1_score = 2*((precision*recall)/(precision+recall))
 
     print("f1_score is: ", f1_score),
     print("\n")
 
+    # Save these information is an array.
     TP_dict[name] = TP
     FN_dict[name] = FN
     FP_dict[name] = FP
@@ -294,9 +337,12 @@ def confusionMatrixAndDataDictGenerator(y_true,y_pred,name):
 
     return f1_score
 
+# Get ground truth array.
 y_true = imageGroundTruthArray()
 print("")
 
+# Get predicion array for each APIs by calling each function.
+# And get F1 score for each APIs.
 y_pred = IBMLabelIndicatorArray()
 print("F1 measure result of IBM vision API:")
 IBM_F1_score = confusionMatrixAndDataDictGenerator(y_true,y_pred,'IBM')
@@ -321,6 +367,7 @@ y_pred = GoogleLabelIndicatorArrayWithBothDetectors()
 print("F1 measure result of Google cloudVision API with object detection:")
 Google_F1_score_with_objectDetector = confusionMatrixAndDataDictGenerator(y_true,y_pred,'GoolgeWithBothDetector')
 
+# Sort the date by decreasing order.
 sorted_TP_dict = sorted(TP_dict.items(), key = operator.itemgetter(1), reverse = True)
 sorted_FN_dict = sorted(FN_dict.items(), key = operator.itemgetter(1), reverse = True)
 sorted_FP_dict = sorted(FP_dict.items(), key = operator.itemgetter(1), reverse = True)
@@ -329,6 +376,7 @@ sorted_precision_dict = sorted(precision_dict.items(), key = operator.itemgetter
 sorted_recall_dict = sorted(recall_dict.items(), key = operator.itemgetter(1), reverse = True)
 sorted_f1_score_dict = sorted(f1_score_dict.items(), key = operator.itemgetter(1), reverse = True)
 
+# Print out the result to terminal.
 print("After sorted, the descending order of TN, FN, FP, TN, precision, recall, and f1-score are:")
 print("")
 print("The TP result of APIs are:")

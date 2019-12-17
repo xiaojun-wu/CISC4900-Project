@@ -12,6 +12,7 @@ def main():
 
     backSub = cv.createBackgroundSubtractorMOG2()
 
+    # 
     for i in range(2,rows+1):
         filename = sheet.cell(row = i, column = 1).value
         path = 'G:/CISC4900/backgroundSubtraction/photos/'
@@ -52,7 +53,10 @@ def main():
         keyboard = cv.waitKey(200)
         if keyboard == 'q' or keyboard == 27:
             break
-
+'''
+Filter function is treat foreground's noise and make the foreground clearer.
+method are Erosion, Dilation, opening, and closing.
+'''
 def filter_mask(image):
     kernel = cv.getStructuringElement(cv.MORPH_CROSS,(2,2))
 

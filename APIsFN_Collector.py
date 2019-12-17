@@ -1,6 +1,12 @@
 import os
 import openpyxl
 
+'''
+This prograom is the filter program that select all FN images that they has caribou in it but API said no.
+If the images was detect FN, mark the FN in spreadsheet and save the date.
+Those date for analyze the reason of why API detect those image as FN.
+'''
+
 global workbook
 global sheet
 global rows
@@ -9,6 +15,7 @@ workbook = openpyxl.load_workbook('pattern/CollectionOfAPIsFN.xlsx')
 sheet = workbook.active
 rows = sheet.max_row
 
+# Get the ground Truth array of each labels.
 def imageGroundTruthArray():
     y_true = []
     for i in range(2,rows+1):
@@ -21,18 +28,27 @@ def imageGroundTruthArray():
 
     return y_true
 
+# Get Google label detection API's result.
+# For each image, 0 means API doesn't detect any caribou, more that zero means detect caribous
+# The score depend on how exact label descript the caribous.
 def GoogleLabelFN():
+    # labels considered API detect caribou in image.
     keywords = ['wildlife','animal','mammal','deer','caribou','bear','polar bear','antelope','horse','goat','sheep','Canine',
     'Arctic Fox','Mountain Goat','Bison']
+    # Most exact labels
     firstLevelKeywords = ['deer','caribou','reindeer']
+    # Second exact labels
     secondLevelKeywords = ['antelope','horse','goat','sheep','Mountain Goat']
+    # third exact labels
     thirdLevelKeywords = ['wildlife','animal','mammal','bear','polar bear','Canine','Arctic Fox','Bison']
 
     y_pred = []
 
+    # Create sheet
     sheet = workbook["GoogleLabel"]
     rows = sheet.max_row
 
+    # Check if API detect caribou in image or not, and assign score on it.
     for i in range(2,rows+1):
         labelAnnotations = sheet.cell(row = i, column = 3).value
         labels = list(labelAnnotations.split(","))
@@ -51,18 +67,27 @@ def GoogleLabelFN():
         y_pred.append(value)
     FailNegativeArray(sheet,y_pred)
 
+# Get Google object detection API's result.
+# For each image, 0 means API doesn't detect any caribou, more that zero means detect caribous
+# The score depend on how exact label descript the caribous.
 def GoogleOjectFN():
+    # labels considered API detect caribou in image.
     keywords = ['wildlife','animal','mammal','deer','caribou','bear','polar bear','antelope','horse','goat','sheep','Canine',
     'Arctic Fox','Mountain Goat','Bison']
+    # Most exact labels
     firstLevelKeywords = ['deer','caribou','reindeer']
+    # Second exact labels
     secondLevelKeywords = ['antelope','horse','goat','sheep','Mountain Goat']
+    # third exact labels
     thirdLevelKeywords = ['wildlife','animal','mammal','bear','polar bear','Canine','Arctic Fox','Bison']
 
+    # Create sheet
     sheet = workbook["GoogleObject"]
     rows = sheet.max_row
 
     y_pred = []
 
+    # Check if API detect caribou in image or not, and assign score on it.
     for i in range(2,rows+1):
         objectAnnotations = sheet.cell(row = i, column = 3).value
         labels = []
@@ -86,18 +111,28 @@ def GoogleOjectFN():
 
     FailNegativeArray(sheet,y_pred)
 
+# Get Clarifai label detection API's result.
+# For each image, 0 means API doesn't detect any caribou, more that zero means detect caribous
+# The score depend on how exact label descript the caribous.
 def ClarifaiLabelsFN():
+    # labels considered API detect caribou in image.
     keywords = ['wildlife','animal','mammal','deer','caribou']
+    # Most exact labels
     firstLevelKeywords = ['deer','caribou']
     secondLevelKeywords = []
+    # third exact labels
     thirdLevelKeywords = ['wildlife','animal','mammal']
 
+    # Create sheet.
     sheet = workbook["Clarifai"]
     rows = sheet.max_row
 
     y_pred = generatePredictArray(sheet,rows,firstLevelKeywords,secondLevelKeywords,thirdLevelKeywords)
     FailNegativeArray(sheet,y_pred)
 
+# Get IBM label detection API's result.
+# For each image, 0 means API doesn't detect any caribou, more that zero means detect caribous
+# The score depend on how exact label descript the caribous.
 def IBMLabelFN():
     keywords = ['animal','mammal','ice bear','bear','carnivore','dall sheep','wild sheep','ruminant','polar hare',
     'hare','gnawing mammal','great white heron','heron','aquatic']
@@ -111,6 +146,9 @@ def IBMLabelFN():
     y_pred = generatePredictArray(sheet,rows,firstLevelKeywords,secondLevelKeywords,thirdLevelKeywords)
     FailNegativeArray(sheet,y_pred)
 
+# Get AWS label detection API's result.
+# For each image, 0 means API doesn't detect any caribou, more that zero means detect caribous
+# The score depend on how exact label descript the caribous.
 def AWSLabelFN():
     keywords = ['wildlife','animal','mammal','deer','caribou','bear','polar bear','antelope','horse','goat','sheep','Canine',
     'Arctic Fox','Mountain Goat','Bison','Buffalo']
@@ -125,6 +163,7 @@ def AWSLabelFN():
     y_pred = generatePredictArray(sheet,rows,firstLevelKeywords,secondLevelKeywords,thirdLevelKeywords)
     FailNegativeArray(sheet,y_pred)
 
+# Check if API detect caribou in image or not, and assign score on it, return array of prediction.
 def generatePredictArray(sheet,rows,firstLevelKeywords,secondLevelKeywords,thirdLevelKeywords):
     y_pred = []
 
@@ -146,6 +185,8 @@ def generatePredictArray(sheet,rows,firstLevelKeywords,secondLevelKeywords,third
         y_pred.append(value)
     return y_pred
 
+# Compare Ground Truth and API's prediction, If labels if FN(ground Truth is yes, but API said no.)
+# Mark FN.
 def FailNegativeArray(sheet,y_pred):
     y_true = imageGroundTruthArray()
     count = 0

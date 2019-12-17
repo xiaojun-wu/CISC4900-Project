@@ -46,6 +46,7 @@ Filter the labels and save to description variable.
 """
 for i in range(105,rows+1):
     filename = sheet.cell(row = i, column = 1).value
+    # path is absoluted path of foler that contains images.
     path = 'D:/CISC4900/ProjectImages/HITS/'
     fullpath = os.path.join(path,filename)
     fullpath = fullpath.replace('\\','')
